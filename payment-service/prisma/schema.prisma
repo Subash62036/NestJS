@@ -1,0 +1,36 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+enum Test{
+    HELLO
+    HELLO1
+}
+
+enum PaymentStatus {
+INITIATED
+PROCESSING
+SUCCESS
+FAILED
+REFUNDED
+}
+
+model Payment {
+id Int @id @default(autoincrement())
+paymentId String @unique
+orderId Int
+amountCents Int
+currency String @default("INR")
+status PaymentStatus @default(INITIATED)
+providerTxId String? // transaction id from payment gateway
+metadata Json?
+createdAt DateTime @default(now())
+updatedAt DateTime @updatedAt
+}
+

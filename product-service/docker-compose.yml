@@ -1,0 +1,9 @@
+# It is not in use
+postgres:
+  image: postgres:18
+  environment:
+    POSTGRES_USER: postgres
+    POSTGRES_PASSWORD: Admin
+    POSTGRES_DB: NestDB
+  ports:
+    - "5432:5432" 
