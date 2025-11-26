@@ -63,7 +63,7 @@ export class OrderService {
         },
         include: { items: true },
       });
-     console.log('Created Order:', order);
+    
       return order;
     });
 
@@ -72,34 +72,27 @@ export class OrderService {
     try {
       
       for (const it of dto.items) {
-        
-       await firstValueFrom(
-        //this.http.post(`localhost:3001/products/1/adjust-stock`)
-          this.http.post(`${this.productBaseUrl()}/products/${it.productId}/adjust-stock`, { stock: -it.qty }),
-        );
-       
+  
+        await firstValueFrom(this.http.patch(`${this.productBaseUrl()}/products/${it.productId}/adjust-stock`, { stock: -it.qty }));
         compensated.push({ productId: it.productId, stock: it.qty });
-        
       }
     } catch (err) {
-      // Compensation: increment back what we decremented
+
       for (const c of compensated) {
         try {
           await firstValueFrom(
-            this.http.post(`${this.productBaseUrl()}/products/${c.productId}/adjust-stock`, { stock: c.stock }),
+            this.http.patch(`${this.productBaseUrl()}/products/${c.productId}/adjust-stock`, { stock: c.stock }),
           );
         } catch (ignore) {}
       }
-        //console.log(err);
-      // remove the order we created
+      
       await this.prisma.order.delete({ where: { id: created.id } }).catch(() => {});
       throw new InternalServerErrorException('Failed to reserve stock for order; rolled back');
     }
 
     return created;
   }
-
-
+  
   //Find all orders with items
   async findAll() {
 

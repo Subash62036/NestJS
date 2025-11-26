@@ -21,7 +21,8 @@ export class OrderTransformInterceptor implements NestInterceptor {
   }
 
   private transformOrder(order: any) {
-    if (!order) return order;
+    
+    if(!order.items || !order) return order;
 
     return {
       id: order.id,

@@ -17,7 +17,7 @@ export class OrderValidationPipe implements PipeTransform {
     this.validateStatusField(value);
     this.validateItemsArray(value);
 
-    return value;  // Return transformed & validated DTO
+    return value;  
   }
 
   // ----------------------
@@ -32,7 +32,7 @@ export class OrderValidationPipe implements PipeTransform {
       throw new BadRequestException('Invalid or missing customerEmail');
     }
 
-    // Normalize
+    
     dto.customerName = dto.customerName.trim();
     dto.customerEmail = dto.customerEmail.trim().toLowerCase();
   }
@@ -44,6 +44,7 @@ export class OrderValidationPipe implements PipeTransform {
   // ----------------------
   // ORDER STATUS VALIDATION
   // ----------------------
+
   private validateStatusField(dto: any) {
     if (dto.status) {
       const status = String(dto.status).toUpperCase();
@@ -62,6 +63,7 @@ export class OrderValidationPipe implements PipeTransform {
   // ----------------------
   // ITEMS ARRAY VALIDATION
   // ----------------------
+  
   private validateItemsArray(dto: any) {
     if (!Array.isArray(dto.items) || dto.items.length === 0) {
       throw new BadRequestException('items must be a non-empty array');

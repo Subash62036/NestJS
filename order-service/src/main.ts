@@ -8,14 +8,14 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
 
   
-  app.useGlobalPipes(
-    new ValidationPipe({ 
-       whitelist: true,          // removes unknown fields
-      forbidNonWhitelisted: true, // throws error for extra fields
-      forbidUnknownValues: true,
-      transform: true,     // auto-transform payloads to DTO instances
-    })
-  );  
+  // app.useGlobalPipes(
+  //   new ValidationPipe({ 
+  //      whitelist: true,          // removes unknown fields
+  //     forbidNonWhitelisted: true, // throws error for extra fields
+  //     forbidUnknownValues: true,
+  //     transform: true,     // auto-transform payloads to DTO instances
+  //   })
+  // );  
 
   const config = new DocumentBuilder()
     .setTitle('Order Service')
